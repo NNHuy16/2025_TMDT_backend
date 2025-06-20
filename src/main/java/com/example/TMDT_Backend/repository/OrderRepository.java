@@ -9,11 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, String> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findByUser(User user);
     Optional<Order> findByTxnRef(String txnRef);
-    List<Order> findByUser_Id(Long userId);
-
-
-
+    List<Order> findByUserId(Long userId);
 }

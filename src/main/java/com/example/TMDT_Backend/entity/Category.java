@@ -6,38 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
-public class Product {
-
+@Entity
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer cate_ID;
 
     @Column(nullable = false, length = 255)
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    @Column(nullable = false)
-    private Double price; // Giá hiện tại
-
-    @Column(nullable = false)
-    private Integer stockQuantity; // Số lượng tồn kho
-
-    private String imageUrl; // Đường dẫn ảnh sản phẩm
-
-    @ManyToOne
-    @JoinColumn(name = "cate_ID", nullable = false) // FK to categories table
-    private Category category;
-
-    @ManyToOne
-    @JoinColumn(name = "seller_id", nullable = false) // FK to users table (seller)
-    private User seller;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -63,4 +46,4 @@ public class Product {
         active,
         inactive
     }
-}
+} 
