@@ -4,38 +4,33 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_details")
-public class OrderDetail {
-
+@Entity
+@Table(name = "carts")
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false) // Link to Order's order_ID
-    private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
-    private Double price; // đơn giá tại thời điểm đặt hàng
+    private Double totalAmount;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createAt;
 
     private LocalDateTime updateAt;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems;
 
     @PrePersist
     protected void onCreate() {
@@ -47,4 +42,4 @@ public class OrderDetail {
     protected void onUpdate() {
         updateAt = LocalDateTime.now();
     }
-}
+} 

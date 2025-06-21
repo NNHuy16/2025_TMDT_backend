@@ -4,40 +4,33 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
-public class Product {
-
+@Entity
+@Table(name = "vouchers")
+public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 255)
-    private String name;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    @Column(nullable = false, unique = true, length = 50)
+    private String code;
 
     @Column(nullable = false)
-    private Double price; // Giá hiện tại
+    private Double discountAmount;
 
     @Column(nullable = false)
-    private Integer stockQuantity; // Số lượng tồn kho
+    private LocalDateTime expiryDate;
 
-    private String imageUrl; // Đường dẫn ảnh sản phẩm
+    @Column(nullable = false)
+    private Integer usageLimit;
 
-    @ManyToOne
-    @JoinColumn(name = "cate_ID", nullable = false) // FK to categories table
-    private Category category;
-
-    @ManyToOne
-    @JoinColumn(name = "seller_id", nullable = false) // FK to users table (seller)
-    private User seller;
+    @Column(nullable = false)
+    private Integer usedCount = 0;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -63,4 +56,4 @@ public class Product {
         active,
         inactive
     }
-}
+} 
